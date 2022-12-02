@@ -3,10 +3,10 @@ import React from "react";
 function MovieDisplay({ movieData }) {
   return (
     <div>
-      <h2>{movieData[0].Title}</h2>
+      <h2><a href={'https://www.imdb.com/title/' + movieData[0].imdbID}> {movieData[0].Title}</a></h2>
       <img src={movieData[0].Poster} alt={movieData.Title} />
-      <p>Summary: {movieData[0].Plot}</p>
-      <h4>Imdb Rating: {movieData[0].imdbRating}</h4>
+      <p>{movieData[0].Plot}</p>
+      <h4>{movieData[0].imdbRating} ⭐️</h4>
     </div>
   );
 }

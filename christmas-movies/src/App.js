@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {!isAuthenticated ? <LandingPage /> : <Main />}
+      {isAuthenticated ? <Main /> : <LandingPage /> }
     </div>
   );
 }
