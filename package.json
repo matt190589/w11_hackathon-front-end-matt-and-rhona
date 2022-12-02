@@ -1,0 +1,20 @@
+{
+  "name": "w10_auth-athon-matt-and-rhona",
+  "version": "1.0.0",
+  "description": "Your challenge is to ideate, plan, and build a React app that uses authentication via Auth0. What you build is up to you, but it should include functionality for users to log in and out and a way to show and use user profile information.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SchoolOfCode/w10_auth-athon-matt-and-rhona.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SchoolOfCode/w10_auth-athon-matt-and-rhona/issues"
+  },
+  "homepage": "https://github.com/SchoolOfCode/w10_auth-athon-matt-and-rhona#readme"
+}
