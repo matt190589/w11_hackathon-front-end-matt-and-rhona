@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import christmasMovieIDs from "../../data";
+import LoginButton from "../LoginButton";
+import LogoutButton from "../../LogoutButton";
+import Profile from "../../Profile";
 
 const API_KEY = "c8ce6acf";
 const API_KEY_BACKUP = "3e600c52";
@@ -28,7 +31,8 @@ function Main() {
 
   return (
     <div>
-      <button onClick={generatemovieID}>Click for Movie ID</button>
+        <Profile/>
+        <button onClick={generatemovieID}>Click for Movie ID</button>
     </div>
   );
 }
