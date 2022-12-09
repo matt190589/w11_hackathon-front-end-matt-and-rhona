@@ -3,14 +3,19 @@ import christmasMovieIDs from "../../data";
 import Profile from "../Profile";
 import MovieDisplay from "../MovieDisplay";
 import ListItem from "../../ListItem";
+import { useAuth0 } from "@auth0/auth0-react";
+import StarCounter from "../StarCounter";
+import useCounter from "../../hooks/useCounter";
 
 const API_KEY = "c8ce6acf";
-const API_KEY_BACKUP = "3e600c52";
+//const API_KEY_BACKUP = "3e600c52";
 
 function Main() {
   const [movieData, setMovieData] = useState([]);
   const [movieID, setMovieID] = useState(null);
   const [watchList, setWatchList] = useState([]);
+  const [starCount, increment, decrement] = useCounter(0)
+  const { user } = useAuth0()
 
   useEffect(() => {
     let url = "http://www.omdbapi.com/?i=" + movieID + "&apikey=" + API_KEY;
@@ -18,42 +23,40 @@ function Main() {
       const response = await fetch(url);
       const data = await response.json();
       setMovieData([data]);
-      console.log(movieData);
     }
     callURL();
   }, [movieID]);
 
-  // useEffect(() => {
   async function postUserRatings(ratings) {
-    const post = await fetch("http://localhost:3001/api/", {
+    let fetchBody = {
+      film_id: movieData[0].imdbID,
+      title: movieData[0].Title,
+      rating: starCount,
+      profile_id: user.sub,
+    }
+    const post = await fetch("http://localhost:3001/ratings", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({
-        film_id: 1,
-        title: "Home Alone",
-        rating: 5,
-        user_id: "oAuth",
-      }),
+      body: JSON.stringify(fetchBody),
     });
+    console.log('rating submitted', post)
+    for (let i=0; i<starCount; i++) {
+      decrement()
+    }
   }
-  //   postUserRatings();
-  // }, []);
-
+console.log(starCount)
   function generatemovieID() {
     let randMovieIDNum = Math.floor(Math.random() * christmasMovieIDs.length);
-    console.log(randMovieIDNum);
     setMovieID(christmasMovieIDs[randMovieIDNum]);
   }
-  console.log(movieID);
 
   function handleWatchList(movie) {
     const newRec = {
       title: movie[0].Title,
       url: "https://www.imdb.com/title/" + movieData[0].imdbID,
     };
-    console.log(newRec);
     setWatchList([...watchList, newRec]);
   }
 
@@ -72,6 +75,8 @@ function Main() {
           Add to my watch list
         </button>
       </div>
+      <p>Already seen it? Submit your star rating!</p>
+      <StarCounter starCount={starCount} increment={increment} decrement={decrement}/>
       <button
         onClick={() => {
           postUserRatings();
