@@ -10,7 +10,7 @@ const API_KEY_BACKUP = "3e600c52";
 function Main() {
   const [movieData, setMovieData] = useState([]);
   const [movieID, setMovieID] = useState(null);
-  const [watchList, setWatchList] = useState([])
+  const [watchList, setWatchList] = useState([]);
 
   useEffect(() => {
     let url = "http://www.omdbapi.com/?i=" + movieID + "&apikey=" + API_KEY;
@@ -23,6 +23,24 @@ function Main() {
     callURL();
   }, [movieID]);
 
+  // useEffect(() => {
+  async function postUserRatings(ratings) {
+    const post = await fetch("http://localhost:3001/api/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        film_id: 1,
+        title: "Home Alone",
+        rating: 5,
+        user_id: "oAuth",
+      }),
+    });
+  }
+  //   postUserRatings();
+  // }, []);
+
   function generatemovieID() {
     let randMovieIDNum = Math.floor(Math.random() * christmasMovieIDs.length);
     console.log(randMovieIDNum);
@@ -31,13 +49,16 @@ function Main() {
   console.log(movieID);
 
   function handleWatchList(movie) {
-    const newRec = {title: movie[0].Title, url: 'https://www.imdb.com/title/' + movieData[0].imdbID}
-    console.log(newRec)
-    setWatchList([...watchList, newRec])
+    const newRec = {
+      title: movie[0].Title,
+      url: "https://www.imdb.com/title/" + movieData[0].imdbID,
+    };
+    console.log(newRec);
+    setWatchList([...watchList, newRec]);
   }
 
   return (
-    <div className='main'>
+    <div className="main">
       <Profile />
       <button onClick={generatemovieID}>Get my festive film!</button>
       {movieData.length > 0 && <MovieDisplay movieData={movieData} />}
@@ -47,10 +68,24 @@ function Main() {
         <p>Click to load movies</p>
       )} */}
       <div className="container">
-        <button onClick={() => handleWatchList(movieData)}>Add to my watch list</button>
+        <button onClick={() => handleWatchList(movieData)}>
+          Add to my watch list
+        </button>
       </div>
+      <button
+        onClick={() => {
+          postUserRatings();
+        }}
+      >
+        {" "}
+        Submit Rating
+      </button>
       <h4>My watch list:</h4>
-      <ul>{watchList.map((movie) => <ListItem movie={movie}/>)}</ul>
+      <ul>
+        {watchList.map((movie) => (
+          <ListItem movie={movie} />
+        ))}
+      </ul>
     </div>
   );
 }
