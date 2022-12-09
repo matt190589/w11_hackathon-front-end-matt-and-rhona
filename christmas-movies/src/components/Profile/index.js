@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
+  console.log("user info", user);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -12,8 +13,8 @@ const Profile = () => {
     isAuthenticated && (
       <div>
         <h2>
-          Ho, Ho, Ho, {user.given_name}. We have the perfect festive film for
-          you!
+          Ho, Ho, Ho, {user.given_name}. Unique_id: {user.sub}. We have the
+          perfect festive film for you!
         </h2>
       </div>
     )
